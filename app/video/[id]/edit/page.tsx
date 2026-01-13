@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/utils/api-client";
 
+import { videoInterface } from "@/model/Vdeo";
+
 export default function EditVideoPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -24,9 +26,9 @@ export default function EditVideoPage() {
         }
     }, [status, router]);
 
-    const { data: video, isLoading } = useQuery({
+    const { data: video, isLoading } = useQuery<videoInterface>({
         queryKey: ["video", id],
-        queryFn: () => apiClient.getVideo(id),
+        queryFn: async () => (await apiClient.getVideo(id)) as videoInterface,
         enabled: !!id,
     });
 

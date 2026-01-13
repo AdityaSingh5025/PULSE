@@ -32,12 +32,12 @@ class APIClient {
     return response.json();
   }
 
-  async getVideos() {
-    return this.fetch("video");
+  async getVideos<T = any>() {
+    return this.fetch<T>("video");
   }
 
-  async getVideo(id: string) {
-    return this.fetch(`video/${id}`);
+  async getVideo<T = any>(id: string) {
+    return this.fetch<T>(`video/${id}`);
   }
 
   async createVideo(videoData: videoformData) {

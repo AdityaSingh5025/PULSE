@@ -3,10 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDatabase } from "./db";
 import User from "@/model/User";
 import type { JWT } from "next-auth/jwt";
-import type { Session } from "next-auth";
+import type { Session, NextAuthOptions } from "next-auth";
 
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -20,7 +20,7 @@ export const authOptions = {
         }
         try {
           await connectToDatabase();
-          const user = await User.findOne({ email: credentials.email });  
+          const user = await User.findOne({ email: credentials.email });
           if (!user) {
             throw new Error("No user found with the given email");
           }
@@ -30,7 +30,7 @@ export const authOptions = {
           );
           if (!isPasswordValid) {
             throw new Error("Invalid password");
-          }   
+          }
           return { email: user.email, id: user._id.toString() };
         } catch (error) {
           console.log("Error in authorizing user:", error);
@@ -49,7 +49,7 @@ export const authOptions = {
     async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
         session.user.id = token.id as string;
-      } 
+      }
       return session;
     },
   },

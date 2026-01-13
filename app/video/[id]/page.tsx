@@ -40,7 +40,7 @@ export default function VideoDetailPage() {
 
   const { data, isLoading, error } = useQuery<VideosResponse>({
     queryKey: ["videos"],
-    queryFn: () => apiClient.getVideos(),
+    queryFn: async () => (await apiClient.getVideos()) as VideosResponse,
   });
 
   const video = data?.videos.find((v) => v._id === videoId);
